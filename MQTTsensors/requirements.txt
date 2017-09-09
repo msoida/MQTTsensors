@@ -1,0 +1,6 @@
+Adafruit-PureIO
+paho-mqtt
+Pillow
+python-decouple
+pytz
+requests
