@@ -64,7 +64,7 @@ def upload_camera(topic, title, fntsize, bgsize, bgcolor, data):
     d.text((5, int(fntsize * 0.9)), title, font=fnt, fill=(255, 255, 255, 255))
     out = Image.alpha_composite(img, txt)
     output = BytesIO()
-    out.save(output, 'JPEG')
+    out.convert('RGB').save(output, 'JPEG')
     del img, txt
     origfile.close()
     photo = output.getvalue()
