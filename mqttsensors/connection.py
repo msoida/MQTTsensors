@@ -17,7 +17,7 @@ status_connected = json(dict(status='connected', value=1))
 status_disconnected = json(dict(status='disconnected', value=0))
 
 
-def on_connect(client, userdata, rc):
+def on_connect(client, userdata, flags, rc):
     print('MQTT connect: {}'.format(connack_string(rc)))
 
 
