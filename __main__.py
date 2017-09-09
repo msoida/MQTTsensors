@@ -2,7 +2,7 @@ from sys import exit
 from signal import signal, SIGTERM, SIGHUP
 from locale import (setlocale, LC_ALL, Error as LocaleError)
 
-from .main import main
+from main import main
 
 # -----------------   SYSTEM   ----------------- #
 

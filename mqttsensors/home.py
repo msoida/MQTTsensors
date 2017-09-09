@@ -1,12 +1,8 @@
-from datetime import datetime
-from io import BytesIO
-from json import dumps as json, loads as unjson
+
+from json import loads as unjson
 from socket import socket
 from subprocess import run, PIPE
 from time import sleep
-
-from PIL import (Image, ImageDraw, ImageFont)
-from pytz import timezone
 
 from bmp280 import BMP280, BMP280Error
 from bme280 import BME280, BME280Error
@@ -16,8 +12,6 @@ from .settings import (bmp_temp_topic, bmp_press_topic, bme_temp_topic,
                        bme_press_topic, bme_humid_topic, out_temp_topic,
                        out_humid_topic, raspicam_topic, out_ip, out_port)
 
-
-tz = timezone('Europe/Warsaw')
 
 raspicam = ['raspistill', '-n', '-vf', '-hf',
             '-t', '1000', '-br', '55', '-o', '-']
@@ -73,7 +67,8 @@ def upload_out():
 def upload_picam():
     proc = run(raspicam, check=True, stdout=PIPE)
     data = proc.stdout
-    upload_camera(raspicam_topic, 'PiCam', 45, (450, 100), (0, 0, 0, 128), data)
+    t = raspicam_topic
+    upload_camera(t, 'PiCam', 45, (450, 100), (0, 0, 0, 128), data)
 
 
 def upload_sensors():

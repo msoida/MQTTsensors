@@ -1,8 +1,3 @@
-from datetime import datetime
-from io import BytesIO
-
-from PIL import (Image, ImageDraw, ImageFont)
-from pytz import timezone
 from requests import get as urlget
 from requests.exceptions import RequestException
 
@@ -13,8 +8,6 @@ from .settings import (temp_topic, humid_topic, press_topic,
                        ogrodcam_topic, podjazdcam_topic,
                        ogrodcam_url, podjazdcam_url)
 
-
-tz = timezone('Europe/Warsaw')
 
 bme = BME280()
 bme.set_acquisition_options(16, 16, 2, 16)
@@ -52,7 +45,7 @@ def upload_ogrodcam():
     topic = ogrodcam_topic
     data = get_cam_data(url)
     # upload_camera(topic, title, 22, (220,50), (0,0,0,128), data)
-    upload_camera(topic, title, 22, (300,50), (75,75,75,255), data)
+    upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
 
 
 def upload_podjazdcam():
@@ -60,11 +53,11 @@ def upload_podjazdcam():
     url = podjazdcam_url
     topic = podjazdcam_topic
     data = get_cam_data(url)
-    # upload_camera(topic, title, 22, (220,50), (0,0,0,128), data)
-    upload_camera(topic, title, 22, (300,50), (75,75,75,255), data)
+    # upload_camera(topic, title, 22, (220, 50), (0, 0, 0, 128), data)
+    upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
 
 
-def main():
+def upload_sensors():
     upload_attic()
     upload_ogrodcam()
     upload_podjazdcam()

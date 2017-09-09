@@ -1,3 +1,5 @@
+from time import sleep
+
 from mqttsensors import upload_sensors
 
 
