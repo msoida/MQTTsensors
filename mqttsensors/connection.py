@@ -7,7 +7,7 @@ from paho.mqtt.client import Client, connack_string, error_string
 from PIL import (Image, ImageDraw, ImageFont)
 from pytz import timezone
 
-from .settings import status_topic, inconsolata_path
+from .settings import mqtt_server, status_topic, inconsolata_path
 
 
 tz = timezone('Europe/Warsaw')
@@ -32,7 +32,7 @@ def on_message(client, userdata, message):
 client = Client()
 client.will_set(status_topic, status_error, retain=True)
 # client.connect_async('localhost')
-client.connect('localhost')
+client.connect(mqtt_server)
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 client.on_message = on_message
