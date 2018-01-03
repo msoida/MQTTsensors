@@ -6,11 +6,13 @@ from time import sleep
 
 from bmp280 import BMP280, BMP280Error
 from bme280 import BME280, BME280Error
+from ina219 import INA219, INA219Error
 
 from .connection import publish, upload_camera
 from .settings import (bmp_temp_topic, bmp_press_topic, bme_temp_topic,
                        bme_press_topic, bme_humid_topic, out_temp_topic,
-                       out_humid_topic, raspicam_topic, out_ip, out_port)
+                       out_humid_topic, raspicam_topic, out_ip, out_port,
+                       ina_voltage_topic, ina_power_topic, ina_current_topic)
 
 
 raspicam = ['raspistill', '-n', '-vf', '-hf',
@@ -23,6 +25,12 @@ bmp.set_config(1000, 16)
 bme = BME280(alternativeAddress=True)
 bme.set_acquisition_options(16, 16, 2, 16)
 bme.set_config(1000, 16)
+
+ina = INA219()
+ina.shuntADC(128)
+ina.busADC(128)
+ina.vrange(16)
+ina.set_calibration()
 
 
 def upload_bmp():
@@ -47,6 +55,19 @@ def upload_bme():
     publish(bme_temp_topic, BMEtemperature)
     publish(bme_press_topic, BMEpressure)
     publish(bme_humid_topic, BMEhumidity)
+
+
+def upload_ina():
+    try:
+        INAvoltage = ina.bus_voltage()
+        INApower = ina.power()
+        INAcurrent = ina.current()
+    except INA219Error:
+        print('INA219 Error')
+        return
+    publish(ina_voltage_topic, INAvoltage)
+    publish(ina_power_topic, INApower)
+    publish(ina_current_topic, INAcurrent)
 
 
 def upload_out():
@@ -74,5 +95,6 @@ def upload_picam():
 def upload_sensors():
     upload_bmp()
     upload_bme()
+    upload_ina()
     upload_out()
     upload_picam()
