@@ -1,8 +1,18 @@
+from datetime import datetime, timedelta
 from time import sleep
 
-from mqttsensors import upload_sensors
+from pytz import utc
+
+from mqttsensors import upload_list
+
+
+upload_times = [datetime(1970, 1, 1, tzinfo=utc)] * len(upload_list)
 
 
 def main():
-    upload_sensors()
-    sleep(120)
+    for i, ul in enumerate(upload_list):
+        if datetime.now(utc) > (upload_times[i] + timedelta(seconds=ul[0])):
+            for f in ul[1]:
+                f()
+            upload_times[i] = datetime.now(utc)
+    sleep(1)

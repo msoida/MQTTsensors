@@ -1,1 +1,1 @@
-from .app import upload_sensors
+from .app import upload_list

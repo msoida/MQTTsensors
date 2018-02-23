@@ -92,9 +92,8 @@ def upload_picam():
     upload_camera(t, 'PiCam', 45, (450, 100), (0, 0, 0, 128), data)
 
 
-def upload_sensors():
-    upload_bmp()
-    upload_bme()
-    upload_ina()
-    upload_out()
-    upload_picam()
+upload_list = [
+    (30, [upload_ina]),
+    (60, [upload_picam]),
+    (120, [upload_bmp, upload_bme, upload_out]),
+]

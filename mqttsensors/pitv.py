@@ -45,6 +45,6 @@ def upload_out():
         publish(out_temp_topic, temperature)
 
 
-def upload_sensors():
-    upload_bme()
-    upload_out()
+upload_list = [
+    (120, [upload_bme, upload_out]),
+]

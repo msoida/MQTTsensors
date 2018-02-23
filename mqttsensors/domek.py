@@ -57,7 +57,7 @@ def upload_podjazdcam():
     upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
 
 
-def upload_sensors():
-    upload_attic()
-    upload_ogrodcam()
-    upload_podjazdcam()
+upload_list = [
+    (60, [upload_ogrodcam, upload_podjazdcam]),
+    (120, [upload_attic]),
+]
