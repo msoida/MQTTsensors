@@ -18,8 +18,6 @@ if location == 'home':
     out_temp_topic = config('OUT_TEMP_TOPIC')
     out_humid_topic = config('OUT_HUMID_TOPIC')
     raspicam_topic = config('RASPICAM_TOPIC')
-    out_ip = config('OUT_IP')
-    out_port = config('OUT_PORT', cast=int)
 
 elif location == 'pitv':
     bme_temp_topic = config('BME_TEMP_TOPIC')

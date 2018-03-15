@@ -1,17 +1,15 @@
-
-from json import loads as unjson
-from socket import socket
 from subprocess import run, PIPE
-from time import sleep
 
 from bmp280 import BMP280, BMP280Error
 from bme280 import BME280, BME280Error
+from am2315 import AM2315, AM2315Error
 from ina219 import INA219, INA219Error
 
 from .connection import publish, upload_camera
-from .settings import (bmp_temp_topic, bmp_press_topic, bme_temp_topic,
-                       bme_press_topic, bme_humid_topic, out_temp_topic,
-                       out_humid_topic, raspicam_topic, out_ip, out_port,
+from .settings import (bmp_temp_topic, bmp_press_topic,
+                       bme_temp_topic, bme_press_topic, bme_humid_topic,
+                       out_temp_topic, out_humid_topic,
+                       raspicam_topic,
                        ina_voltage_topic, ina_power_topic, ina_current_topic)
 
 
@@ -25,6 +23,8 @@ bmp.set_config(1000, 16)
 bme = BME280(alternativeAddress=True)
 bme.set_acquisition_options(16, 16, 2, 16)
 bme.set_config(1000, 16)
+
+out = AM2315(bus=3)
 
 ina = INA219()
 ina.shuntADC(128)
@@ -71,16 +71,12 @@ def upload_ina():
 
 
 def upload_out():
-    s = socket()
-    s.connect((out_ip, out_port))  # Connect to sensor
-    s.send(b'\0')  # Trigger sensor output
-    sleep(0.1)  # Wait for full response
-    bdata = s.recv(1024)  # Save raw JSON bytes
-    s.close()
-    sdata = bdata.decode()  # Decode JSON to str
-    data = unjson(sdata)
-    temperature = data['temperature']
-    humidity = data['humidity']
+    try:
+        temperature = out.temperature()
+        humidity = out.humidity()
+    except AM2315Error:
+        print('AM2315 Error')
+        return
     publish(out_temp_topic, temperature)
     publish(out_humid_topic, humidity)
 
