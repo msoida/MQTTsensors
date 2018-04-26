@@ -35,7 +35,7 @@ def get_cam_data(url):
         orig = response.content
     except RequestException:
         print('RequestException - get data')
-        return
+        return None
     return orig
 
 
@@ -44,8 +44,9 @@ def upload_ogrodcam():
     url = ogrodcam_url
     topic = ogrodcam_topic
     data = get_cam_data(url)
-    # upload_camera(topic, title, 22, (220,50), (0,0,0,128), data)
-    upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
+    if data is not None:
+        # upload_camera(topic, title, 22, (220,50), (0,0,0,128), data)
+        upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
 
 
 def upload_podjazdcam():
@@ -53,8 +54,9 @@ def upload_podjazdcam():
     url = podjazdcam_url
     topic = podjazdcam_topic
     data = get_cam_data(url)
-    # upload_camera(topic, title, 22, (220, 50), (0, 0, 0, 128), data)
-    upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
+    if data is not None:
+        # upload_camera(topic, title, 22, (220, 50), (0, 0, 0, 128), data)
+        upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
 
 
 upload_list = [
