@@ -1,4 +1,4 @@
-from subprocess import run, PIPE
+from subprocess import run, PIPE, SubprocessError
 
 from bmp280 import BMP280, BMP280Error
 from bme280 import BME280, BME280Error
@@ -82,7 +82,11 @@ def upload_out():
 
 
 def upload_picam():
-    proc = run(raspicam, check=True, stdout=PIPE)
+    try:
+        proc = run(raspicam, check=True, stdout=PIPE, timeout=10)
+    except SubprocessError:
+        print('PiCam Error')
+        return
     data = proc.stdout
     t = raspicam_topic
     upload_camera(t, 'PiCam', 45, (450, 100), (0, 0, 0, 128), data)
