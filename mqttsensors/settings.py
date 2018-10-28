@@ -23,6 +23,7 @@ elif location == 'pitv':
     bme_temp_topic = config('BME_TEMP_TOPIC')
     bme_press_topic = config('BME_PRESS_TOPIC')
     bme_humid_topic = config('BME_HUMID_TOPIC')
+    tsl_light_topic = config('TSL_LIGHT_TOPIC')
     out_temp_topic = config('OUT_TEMP_TOPIC')
     temp_probe_id = config('TEMP_PROBE_ID')
 

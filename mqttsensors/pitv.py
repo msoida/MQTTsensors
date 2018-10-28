@@ -1,14 +1,19 @@
-
 from bme280 import BME280, BME280Error
+from tsl2561 import TSL2561, TSL2561Error
 
 from .connection import publish
 from .settings import (bme_temp_topic, bme_press_topic, bme_humid_topic,
+                       tsl_light_topic,
                        out_temp_topic, temp_probe_id)
 
 
 bme = BME280(alternativeAddress=True)
 bme.set_acquisition_options(16, 16, 2, 16)
 bme.set_config(1000, 16)
+
+tsl = TSL2561()
+tsl.power()
+tsl.timing(gain=16)
 
 temp_probe_path = '/sys/bus/w1/devices/{}/w1_slave'.format(temp_probe_id)
 
@@ -24,6 +29,15 @@ def upload_bme():
     publish(bme_temp_topic, BMEtemperature)
     publish(bme_press_topic, BMEpressure)
     publish(bme_humid_topic, BMEhumidity)
+
+
+def upload_tsl():
+    try:
+        TSLlight = tsl.visible()
+    except TSL2561Error:
+        print('TSL2561 Error')
+        return
+    publish(tsl_light_topic, TSLlight)
 
 
 def upload_out():
@@ -47,4 +61,5 @@ def upload_out():
 
 upload_list = [
     (120, [upload_bme, upload_out]),
+    (300, [upload_tsl]),
 ]
