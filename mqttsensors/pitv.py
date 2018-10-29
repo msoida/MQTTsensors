@@ -60,6 +60,5 @@ def upload_out():
 
 
 upload_list = [
-    (120, [upload_bme, upload_out]),
-    (300, [upload_tsl]),
+    (120, [upload_bme, upload_out, upload_tsl]),
 ]
