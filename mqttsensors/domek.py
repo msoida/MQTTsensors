@@ -46,7 +46,7 @@ def upload_ogrodcam():
     data = get_cam_data(url)
     if data is not None:
         # upload_camera(topic, title, 22, (220,50), (0,0,0,128), data)
-        upload_camera(topic, title, 22, (300, 50), (75, 75, 75, 255), data)
+        upload_camera(topic, title, 45, (450, 100), (75, 75, 75, 255), data)
 
 
 def upload_podjazdcam():
