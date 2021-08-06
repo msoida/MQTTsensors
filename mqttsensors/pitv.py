@@ -19,9 +19,9 @@ bme.set_config(1000, 16)
 # ina.vrange(16)
 # ina.set_calibration()
 
-tsl = TSL2561()
-tsl.power()
-tsl.timing(gain=16)
+# tsl = TSL2561()
+# tsl.power()
+# tsl.timing(gain=16)
 
 temp_probe_path = '/sys/bus/w1/devices/{}/w1_slave'.format(temp_probe_id)
 
@@ -52,13 +52,13 @@ def upload_bme():
 #     publish(ina_current_topic, INAcurrent)
 
 
-def upload_tsl():
-    try:
-        TSLlight = tsl.visible()
-    except TSL2561Error:
-        print('TSL2561 Error')
-        return
-    publish(tsl_light_topic, TSLlight)
+# def upload_tsl():
+#     try:
+#         TSLlight = tsl.visible()
+#     except TSL2561Error:
+#         print('TSL2561 Error')
+#         return
+#     publish(tsl_light_topic, TSLlight)
 
 
 def upload_out():
@@ -82,5 +82,6 @@ def upload_out():
 
 upload_list = [
     # (30, [upload_ina]),
-    (120, [upload_bme, upload_out, upload_tsl]),
+    # (120, [upload_bme, upload_out, upload_tsl]),
+    (120, [upload_bme, upload_out]),
 ]
